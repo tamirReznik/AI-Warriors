@@ -43,10 +43,6 @@ void Warrier::calculateNextStep(int maze[MSZ][MSZ])
 	else
 		calcStepTargetExist(maze);
 
-	//each of the warriers get true in the if below in different iteration
-	//if (rateCounter++ % *numOfWarriers == radarRate)
-	//{
-		//return true if enemy in the room --> fight 
 	if (closeRadar(maze))
 	{
 		shootToKill(maze);
@@ -55,8 +51,6 @@ void Warrier::calculateNextStep(int maze[MSZ][MSZ])
 			path = stack<Node*>();
 
 	}
-	//	rateCounter = radarRate + 1;
-	//}
 
 	warrierStep(maze);
 	checkMySurroundingForAmmoAndHP(maze);

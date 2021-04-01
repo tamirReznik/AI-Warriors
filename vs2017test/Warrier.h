@@ -42,14 +42,9 @@ private:
 	int myAmmo;
 	std::stack<Node*> path;
 
+	//Methods
 
-public:
-
-
-	Warrier(int team, int enemyTeam, int row, int col, int number_of_rooms, int* rate, Room* gameRooms, Warrier** teammate, double security_map[MSZ][MSZ], void (*warrierGotHit)(int, int, double, int), bool* gameOver);
-	void calculateNextStep(int maze[MSZ][MSZ]);
 	bool CheckNeighborClosestTarget(Node* current, int row, int col, bool* bfs_is_on, std::vector <Node*>* BFSGrays, int target);
-	void DrawMe(int maze[MSZ][MSZ]);
 	bool findClosestTarget(int maze[MSZ][MSZ], int target);
 	bool closeRadar(int maze[MSZ][MSZ]);
 	int checkMyCurrentRoom();
@@ -58,7 +53,6 @@ public:
 	void copyMaze(int maze[MSZ][MSZ]);
 	void copySecurityMap(double maze[MSZ][MSZ]);
 	void RestorePath(Node* current);
-
 	double distanceFromTeammate(int row, int col);
 	bool findRoomsIndex(Node* myNode, Node* targetNode);
 	void warrierStep(int maze[MSZ][MSZ]);
@@ -76,6 +70,14 @@ public:
 	bool CheckNeighborSafeSpotInRoom(Node* current, int row, int col, bool* bfs_is_on, std::vector <Node*>* BFSGrays);
 	void findPathBetweenRooms2(int targetRoom, int maze[MSZ][MSZ]);
 	bool CheckNeighborBetweenRooms2(Node* current, Node* neighbor, std::priority_queue<Node*, std::vector<Node*>, CompareWarNodes>* aStarGrays, int targetRoom);
+
+public:
+
+
+	Warrier(int team, int enemyTeam, int row, int col, int number_of_rooms, int* rate, Room* gameRooms, Warrier** teammate, double security_map[MSZ][MSZ], void (*warrierGotHit)(int, int, double, int), bool* gameOver);
+	void DrawMe(int maze[MSZ][MSZ]);
+	void calculateNextStep(int maze[MSZ][MSZ]);
+
 
 	void SetFirstAid(int newFirstAid)
 	{
