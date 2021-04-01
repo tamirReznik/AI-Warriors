@@ -12,7 +12,7 @@
 #include "EqualNodes.h"
 #include "Bullet.h"
 #include "Grenade.h"
-#include "Warrier.h"
+#include "Warrior.h"
 
 
 void init();
@@ -20,13 +20,13 @@ void displayWar();
 void InitMaze();
 void InitRooms();
 void DigTunnels();
-void initWarriers();
+void initWarriors();
 void warriorsCalculations();
-int roomAssignment(Warrier** warrier, int team, int specificRoom, int excludeRoom);
+int roomAssignment(Warrior** warrior, int team, int specificRoom, int excludeRoom);
 void lookForGrenadeCasualties();
 void lookForBulletCasualties();
 void lookForCasualties();
-void warrierGotHit(int row, int col, double damage, int target);
+void warriorGotHit(int row, int col, double damage, int target);
 void GenerateSecurityMap();
 void fillRoomsWithObjects();
 void GenerateFireworks();

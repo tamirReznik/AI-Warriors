@@ -19,15 +19,15 @@ Room rooms[NUM_ROOMS];
 Bullet* pb = nullptr;
 Grenade* pg = nullptr;
 
-int numOfWarriers = 0;
+int numOfWarriors = 0;
 
-Warrier* warrier_1_T1, * warrier_2_T1;
-Bullet* bulletTeam_1_Warrier_1, * bulletTeam_1_Warrier_2;
-Grenade* grenadeTeam_1_Warrier_1, * grenadeTeam_1_Warrier_2;
+Warrior* warrior_1_T1, * warrior_2_T1;
+Bullet* bulletTeam_1_Warrior_1, * bulletTeam_1_Warrior_2;
+Grenade* grenadeTeam_1_Warrior_1, * grenadeTeam_1_Warrior_2;
 
-Warrier* warrier_1_T2, * warrier_2_T2;
-Bullet* bulletTeam_2_Warrier_1 = nullptr, * bulletTeam_2_Warrier_2 = nullptr;
-Grenade* grenadeTeam_2_Warrier_1 = nullptr, * grenadeTeam_2_Warrier_2 = nullptr;
+Warrior* warrior_1_T2, * warrior_2_T2;
+Bullet* bulletTeam_2_Warrior_1 = nullptr, * bulletTeam_2_Warrior_2 = nullptr;
+Grenade* grenadeTeam_2_Warrior_1 = nullptr, * grenadeTeam_2_Warrior_2 = nullptr;
 
 bool gameStarted = false;
 bool showSecurityMap = false;
@@ -45,65 +45,65 @@ void init()
 	InitRooms();
 	DigTunnels();
 	fillRoomsWithObjects();
-	initWarriers();
+	initWarriors();
 
 }
 
 void resetVars()
 {
-	grenadeTeam_1_Warrier_1 = nullptr;
-	grenadeTeam_1_Warrier_2 = nullptr;
-	grenadeTeam_2_Warrier_1 = nullptr;
-	grenadeTeam_2_Warrier_2 = nullptr;
-	bulletTeam_1_Warrier_1 = nullptr;
-	bulletTeam_1_Warrier_2 = nullptr;
-	bulletTeam_2_Warrier_1 = nullptr;
-	bulletTeam_2_Warrier_2 = nullptr;
+	grenadeTeam_1_Warrior_1 = nullptr;
+	grenadeTeam_1_Warrior_2 = nullptr;
+	grenadeTeam_2_Warrior_1 = nullptr;
+	grenadeTeam_2_Warrior_2 = nullptr;
+	bulletTeam_1_Warrior_1 = nullptr;
+	bulletTeam_1_Warrior_2 = nullptr;
+	bulletTeam_2_Warrior_1 = nullptr;
+	bulletTeam_2_Warrior_2 = nullptr;
 
 	gameStarted = false;
 	showSecurityMap = false;
 	gameOver = false;
 }
 
-void initWarriers()
+void initWarriors()
 {
 	resetVars();
 	GenerateSecurityMap();
 
-	int roomTeam_1 = roomAssignment(&warrier_1_T1, TEAM_1, -1, -1);
-	roomAssignment(&warrier_2_T1, TEAM_1, roomTeam_1, -1);
+	int roomTeam_1 = roomAssignment(&warrior_1_T1, TEAM_1, -1, -1);
+	roomAssignment(&warrior_2_T1, TEAM_1, roomTeam_1, -1);
 
-	warrier_1_T1->SetTeammate(&warrier_2_T1);
-	warrier_1_T1->SetBullet(&bulletTeam_1_Warrier_1);
-	warrier_1_T1->SetGrenade(&grenadeTeam_1_Warrier_1);
+	warrior_1_T1->SetTeammate(&warrior_2_T1);
+	warrior_1_T1->SetBullet(&bulletTeam_1_Warrior_1);
+	warrior_1_T1->SetGrenade(&grenadeTeam_1_Warrior_1);
 
-	warrier_2_T1->SetTeammate(&warrier_1_T1);
-	warrier_2_T1->SetBullet(&bulletTeam_1_Warrier_2);
-	warrier_2_T1->SetGrenade(&grenadeTeam_1_Warrier_2);
+	warrior_2_T1->SetTeammate(&warrior_1_T1);
+	warrior_2_T1->SetBullet(&bulletTeam_1_Warrior_2);
+	warrior_2_T1->SetGrenade(&grenadeTeam_1_Warrior_2);
 
-	int roomTeam_2 = roomAssignment(&warrier_1_T2, TEAM_2, -1, roomTeam_1);
-	roomAssignment(&warrier_2_T2, TEAM_2, roomTeam_2, -1);
+	int roomTeam_2 = roomAssignment(&warrior_1_T2, TEAM_2, -1, roomTeam_1);
+	roomAssignment(&warrior_2_T2, TEAM_2, roomTeam_2, -1);
 
-	warrier_1_T2->SetTeammate(&warrier_2_T2);
-	warrier_1_T2->SetBullet(&bulletTeam_2_Warrier_1);
-	warrier_1_T2->SetGrenade(&grenadeTeam_2_Warrier_1);
+	warrior_1_T2->SetTeammate(&warrior_2_T2);
+	warrior_1_T2->SetBullet(&bulletTeam_2_Warrior_1);
+	warrior_1_T2->SetGrenade(&grenadeTeam_2_Warrior_1);
 
-	warrier_2_T2->SetTeammate(&warrier_1_T2);
-	warrier_2_T2->SetBullet(&bulletTeam_2_Warrier_2);
-	warrier_2_T2->SetGrenade(&grenadeTeam_2_Warrier_2);
+	warrior_2_T2->SetTeammate(&warrior_1_T2);
+	warrior_2_T2->SetBullet(&bulletTeam_2_Warrior_2);
+	warrior_2_T2->SetGrenade(&grenadeTeam_2_Warrior_2);
 
 	/*cout << " enemy room: " << roomTeam_2 << "\n" << "col: " << rooms[roomTeam_2].GetCenterCol() << " row: " << rooms[roomTeam_2].GetCenterRow();
-	cout << "\nwarrier 1 t2 Row: " << warrier_1_T2->GetMyNode()->GetRow() << " col: " << warrier_1_T2->GetMyNode()->GetCol();
-	cout << "\nwarrier 1 t2 Row: " << warrier_2_T2->GetMyNode()->GetRow() << " col: " << warrier_2_T2->GetMyNode()->GetCol();
+	cout << "\nwarrior 1 t2 Row: " << warrior_1_T2->GetMyNode()->GetRow() << " col: " << warrior_1_T2->GetMyNode()->GetCol();
+	cout << "\nwarrior 1 t2 Row: " << warrior_2_T2->GetMyNode()->GetRow() << " col: " << warrior_2_T2->GetMyNode()->GetCol();
 	*/
 }
 
-// init warrier and place him on random room 
-// if specificRoom in NUM_ROOMS range then the warrier will assign there
-// if specificRoom NOT in NUM_ROOMS range then the warrier will assign to random room that is not excludeRoom
-// if spesific room and excludeRoom NOT in NUM_ROOMS range then the warrier will assign to random room
+// init warrior and place him on random room 
+// if specificRoom in NUM_ROOMS range then the warrior will assign there
+// if specificRoom NOT in NUM_ROOMS range then the warrior will assign to random room that is not excludeRoom
+// if spesific room and excludeRoom NOT in NUM_ROOMS range then the warrior will assign to random room
 //returns the chosen room
-int roomAssignment(Warrier** warrier, int team, int specificRoom, int excludeRoom)
+int roomAssignment(Warrior** warrior, int team, int specificRoom, int excludeRoom)
 {
 
 	int randRoom;
@@ -138,8 +138,8 @@ int roomAssignment(Warrier** warrier, int team, int specificRoom, int excludeRoo
 	} while (notFound);
 
 	int opponentTeam = team == TEAM_1 ? TEAM_2 : TEAM_1;
-	*warrier = new Warrier(team, opponentTeam, row, col, NUM_ROOMS, &numOfWarriers, rooms, nullptr, security_map, warrierGotHit, &gameOver);
-	numOfWarriers++;
+	*warrior = new Warrior(team, opponentTeam, row, col, NUM_ROOMS, &numOfWarriors, rooms, nullptr, security_map, warriorGotHit, &gameOver);
+	numOfWarriors++;
 	return randRoom;
 }
 
@@ -523,10 +523,10 @@ void display()
 
 void displayWar()
 {
-	warrier_1_T1->DrawMe(maze);
-	warrier_2_T1->DrawMe(maze);
-	warrier_1_T2->DrawMe(maze);
-	warrier_2_T2->DrawMe(maze);
+	warrior_1_T1->DrawMe(maze);
+	warrior_2_T1->DrawMe(maze);
+	warrior_1_T2->DrawMe(maze);
+	warrior_2_T2->DrawMe(maze);
 
 
 
@@ -541,16 +541,16 @@ void lookForGrenadeCasualties(Grenade* grenade)
 		std::vector <Bullet> hitBullets = grenade->GetHitBullets();
 		int enemyTeam = hitBullets.front().GetTargert();
 
-		Warrier** enemy_1, ** enemy_2;
+		Warrior** enemy_1, ** enemy_2;
 		if (enemyTeam == TEAM_1)
 		{
-			enemy_1 = &warrier_1_T2;
-			enemy_2 = &warrier_2_T2;
+			enemy_1 = &warrior_1_T2;
+			enemy_2 = &warrior_2_T2;
 		}
 		else if (enemyTeam == TEAM_2)
 		{
-			enemy_1 = &warrier_1_T1;
-			enemy_2 = &warrier_2_T1;
+			enemy_1 = &warrior_1_T1;
+			enemy_2 = &warrior_2_T1;
 		}
 		else
 		{
@@ -587,16 +587,16 @@ void lookForBulletCasualties(Bullet* currentBullet)
 	}
 	int enemyTeam = currentBullet->GetTargert();
 
-	Warrier** enemy_1, ** enemy_2;
+	Warrior** enemy_1, ** enemy_2;
 	if (enemyTeam == TEAM_1)
 	{
-		enemy_1 = &warrier_1_T2;
-		enemy_2 = &warrier_2_T2;
+		enemy_1 = &warrior_1_T2;
+		enemy_2 = &warrior_2_T2;
 	}
 	else if (enemyTeam == TEAM_2)
 	{
-		enemy_1 = &warrier_1_T1;
-		enemy_2 = &warrier_2_T1;
+		enemy_1 = &warrior_1_T1;
+		enemy_2 = &warrior_2_T1;
 	}
 	else
 	{
@@ -620,30 +620,30 @@ void lookForBulletCasualties(Bullet* currentBullet)
 
 void lookForCasualties()
 {
-	lookForGrenadeCasualties(grenadeTeam_1_Warrier_1);
-	lookForGrenadeCasualties(grenadeTeam_1_Warrier_2);
-	lookForGrenadeCasualties(grenadeTeam_2_Warrier_1);
-	lookForGrenadeCasualties(grenadeTeam_2_Warrier_2);
+	lookForGrenadeCasualties(grenadeTeam_1_Warrior_1);
+	lookForGrenadeCasualties(grenadeTeam_1_Warrior_2);
+	lookForGrenadeCasualties(grenadeTeam_2_Warrior_1);
+	lookForGrenadeCasualties(grenadeTeam_2_Warrior_2);
 
-	lookForBulletCasualties(bulletTeam_1_Warrier_1);
-	lookForBulletCasualties(bulletTeam_1_Warrier_2);
-	lookForBulletCasualties(bulletTeam_2_Warrier_1);
-	lookForBulletCasualties(bulletTeam_2_Warrier_2);
+	lookForBulletCasualties(bulletTeam_1_Warrior_1);
+	lookForBulletCasualties(bulletTeam_1_Warrior_2);
+	lookForBulletCasualties(bulletTeam_2_Warrior_1);
+	lookForBulletCasualties(bulletTeam_2_Warrior_2);
 
 }
 
-void warrierGotHit(int row, int col, double damage, int target)
+void warriorGotHit(int row, int col, double damage, int target)
 {
-	Warrier** enemy_1, ** enemy_2;
+	Warrior** enemy_1, ** enemy_2;
 	if (target == TEAM_1)
 	{
-		enemy_1 = &warrier_1_T1;
-		enemy_2 = &warrier_2_T1;
+		enemy_1 = &warrior_1_T1;
+		enemy_2 = &warrior_2_T1;
 	}
 	else if (target == TEAM_2)
 	{
-		enemy_1 = &warrier_1_T2;
-		enemy_2 = &warrier_2_T2;
+		enemy_1 = &warrior_1_T2;
+		enemy_2 = &warrior_2_T2;
 
 	}
 	else
@@ -667,11 +667,11 @@ void warrierGotHit(int row, int col, double damage, int target)
 
 void announceWinner()
 {
-	if (warrier_1_T1->GetHp() <= 0 && warrier_2_T1->GetHp() <= 0
-		&& !(warrier_1_T2->GetHp() <= 0 && warrier_2_T2->GetHp() <= 0))
+	if (warrior_1_T1->GetHp() <= 0 && warrior_2_T1->GetHp() <= 0
+		&& !(warrior_1_T2->GetHp() <= 0 && warrior_2_T2->GetHp() <= 0))
 		printTeamTwoWon();
-	else if (warrier_1_T2->GetHp() <= 0 && warrier_2_T2->GetHp() <= 0
-			 && !(warrier_1_T1->GetHp() <= 0 && warrier_2_T1->GetHp() <= 0))
+	else if (warrior_1_T2->GetHp() <= 0 && warrior_2_T2->GetHp() <= 0
+			 && !(warrior_1_T1->GetHp() <= 0 && warrior_2_T1->GetHp() <= 0))
 		printTeamOneWon();
 	else
 		printDraw();
@@ -758,10 +758,10 @@ void printTeamDeathmatch()
 void warriorsCalculations()
 {
 
-	warrier_1_T1->calculateNextStep(maze);
-	warrier_2_T1->calculateNextStep(maze);
-	warrier_1_T2->calculateNextStep(maze);
-	warrier_2_T2->calculateNextStep(maze);
+	warrior_1_T1->calculateNextStep(maze);
+	warrior_2_T1->calculateNextStep(maze);
+	warrior_1_T2->calculateNextStep(maze);
+	warrior_2_T2->calculateNextStep(maze);
 
 	if (gameOver)
 	{
@@ -844,41 +844,41 @@ void mouse(int button, int state, int x, int y)
 		/*double xx, yy;
 		xx = (2 * x / (double)WIDTH) - 1;
 		yy = (2 * (HEIGHT - y) / (double)HEIGHT) - 1;
-		//pb = new Bullet(xx, yy, warrier_1_T2->GetMyNode()->GetCol() / MSZ, warrier_1_T2->GetMyNode()->GetRow() / MSZ);
+		//pb = new Bullet(xx, yy, warrior_1_T2->GetMyNode()->GetCol() / MSZ, warrior_1_T2->GetMyNode()->GetRow() / MSZ);
 
 		int  row = yy * MSZ / 2 + MSZ / 2;
 		int  col = xx * MSZ / 2 + MSZ / 2;
-		double hypotenuse = sqrt(pow(warrier_1_T2->GetMyNode()->GetRow() - row, 2) + pow(warrier_1_T2->GetMyNode()->GetCol() - col, 2));
-		double dirY = (warrier_1_T2->GetMyNode()->GetRow() - row) / hypotenuse;
-		double dirX = (warrier_1_T2->GetMyNode()->GetCol() - col) / hypotenuse;
+		double hypotenuse = sqrt(pow(warrior_1_T2->GetMyNode()->GetRow() - row, 2) + pow(warrior_1_T2->GetMyNode()->GetCol() - col, 2));
+		double dirY = (warrior_1_T2->GetMyNode()->GetRow() - row) / hypotenuse;
+		double dirX = (warrior_1_T2->GetMyNode()->GetCol() - col) / hypotenuse;
 
-		pb = new Bullet(xx, yy, dirX, dirY, warrier_1_T2->GetTeam(), nullptr);
-			cout << "\nwarrier_1_T2: row: " << warrier_1_T2->GetMyNode()->GetRow() << " col: " << warrier_1_T2->GetMyNode()->GetCol() << "\n";
-			cout << "\nwarrier_1_T2: row: " << 2.0 * warrier_1_T2->GetMyNode()->GetCol() / MSZ - 1 << " col: " << 2.0 * warrier_1_T2->GetMyNode()->GetCol() / MSZ - 1 << "\n";
+		pb = new Bullet(xx, yy, dirX, dirY, warrior_1_T2->GetTeam(), nullptr);
+			cout << "\nwarrior_1_T2: row: " << warrior_1_T2->GetMyNode()->GetRow() << " col: " << warrior_1_T2->GetMyNode()->GetCol() << "\n";
+			cout << "\nwarrior_1_T2: row: " << 2.0 * warrior_1_T2->GetMyNode()->GetCol() / MSZ - 1 << " col: " << 2.0 * warrior_1_T2->GetMyNode()->GetCol() / MSZ - 1 << "\n";
 			cout << "\nxx: " << xx << " yy: " << yy << "\n";
 			cout << "\nx: " << x << " y: " << y << "\n";
 			cout << "\ndirX: " << dirX << " dirY: " << dirY << "\n";
 			cout << "\nrow: " << row << " col: " << col << "\n";
-		pg = new Grenade(xx, yy, warrier_1_T2->GetTeam(), nullptr);*/
+		pg = new Grenade(xx, yy, warrior_1_T2->GetTeam(), nullptr);*/
 	}
 }
 
 void printGameStatus()
 {
 	cout << "\n\nTeam 1 (Orange): \n"
-		<< "\n  Warrier 1: "
-		<< "\n    HP: " << warrier_1_T1->GetHp()
-		<< "\n    Ammo: " << warrier_1_T1->GetAmmo()
-		<< "\n\n  Warrier 2: "
-		<< "\n    HP: " << warrier_2_T1->GetHp()
-		<< "\n    Ammo: " << warrier_2_T1->GetAmmo() << "\n"
+		<< "\n  Warrior 1: "
+		<< "\n    HP: " << warrior_1_T1->GetHp()
+		<< "\n    Ammo: " << warrior_1_T1->GetAmmo()
+		<< "\n\n  Warrior 2: "
+		<< "\n    HP: " << warrior_2_T1->GetHp()
+		<< "\n    Ammo: " << warrior_2_T1->GetAmmo() << "\n"
 		<< "\n\nTeam 2 (Purple): \n"
-		<< "\n  Warrier 1: "
-		<< "\n    HP: " << warrier_1_T2->GetHp()
-		<< "\n    Ammo: " << warrier_1_T2->GetAmmo()
-		<< "\n\n  Warrier 2: "
-		<< "\n    HP: " << warrier_2_T2->GetHp()
-		<< "\n    Ammo: " << warrier_2_T2->GetAmmo() << "\n";
+		<< "\n  Warrior 1: "
+		<< "\n    HP: " << warrior_1_T2->GetHp()
+		<< "\n    Ammo: " << warrior_1_T2->GetAmmo()
+		<< "\n\n  Warrior 2: "
+		<< "\n    HP: " << warrior_2_T2->GetHp()
+		<< "\n    Ammo: " << warrior_2_T2->GetAmmo() << "\n";
 }
 
 int main(int argc, char* argv[])
@@ -887,7 +887,7 @@ int main(int argc, char* argv[])
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 	glutInitWindowSize(WIDTH, HEIGHT);
 	glutInitWindowPosition(400, 100);
-	glutCreateWindow("AI Warriers - Team Deathmatch");
+	glutCreateWindow("AI Warriors - Team Deathmatch");
 
 	glutDisplayFunc(display);
 	glutIdleFunc(idle);

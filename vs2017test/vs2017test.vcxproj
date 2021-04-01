@@ -23,7 +23,7 @@
     <ProjectGuid>{77A8D31A-5446-46A6-8336-F96FF437BC18}</ProjectGuid>
     <RootNamespace>vs2017test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>AI-Warriers</ProjectName>
+    <ProjectName>AI-Warriors</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -125,7 +125,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Room.cpp" />
-    <ClCompile Include="Warrier.cpp" />
+    <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -135,7 +135,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Room.h" />
-    <ClInclude Include="Warrier.h" />
+    <ClInclude Include="Warrior.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

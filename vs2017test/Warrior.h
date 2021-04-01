@@ -11,7 +11,7 @@
 #include <stack>
 #include <math.h>
 
-class Warrier
+class Warrior
 {
 	const int FIRST_AID_INIT_AMOUNT = 1;
 	const int FIRST_AID_HP = 30;
@@ -25,13 +25,13 @@ private:
 	int myStatus;
 	int myMaze[MSZ][MSZ];
 	double mySecurityMap[MSZ][MSZ];
-	void (*warrierGotHitCallBack)(int, int, double, int);
+	void (*warriorGotHitCallBack)(int, int, double, int);
 	Bullet** myBullet;
 	Grenade** myGrenade;
-	Warrier** myTeammate;
+	Warrior** myTeammate;
 	Room* rooms;
 	int firstAid;
-	int radarRate, rateCounter, * numOfWarriers;
+	int radarRate, rateCounter, * numOfWarriors;
 	int myTeam, enemyTeam, numOfRooms;
 	int myRoom_targetRoom[2];// index 0 = my current room| index 1 = target room
 	int currentTarget;
@@ -55,7 +55,7 @@ private:
 	void RestorePath(Node* current);
 	double distanceFromTeammate(int row, int col);
 	bool findRoomsIndex(Node* myNode, Node* targetNode);
-	void warrierStep(int maze[MSZ][MSZ]);
+	void warriorStep(int maze[MSZ][MSZ]);
 	void checkMySurroundingForAmmoAndHP(int maze[MSZ][MSZ]);
 	void shareAmmoAndHp();
 	void findPathInsideRoom(int maze[MSZ][MSZ], Node* target);
@@ -74,8 +74,8 @@ private:
 public:
 
 
-	Warrier(int team, int enemyTeam, int row, int col, int number_of_rooms, int* rate, Room* gameRooms, Warrier** teammate, double security_map[MSZ][MSZ], void (*warrierGotHit)(int, int, double, int), bool* gameOver);
 	void DrawMe(int maze[MSZ][MSZ]);
+	Warrior(int team, int enemyTeam, int row, int col, int number_of_rooms, int* rate, Room* gameRooms, Warrior** teammate, double security_map[MSZ][MSZ], void(*warriorGotHit)(int, int, double, int), bool* gameOver);
 	void calculateNextStep(int maze[MSZ][MSZ]);
 
 
@@ -110,11 +110,11 @@ public:
 		myNode = newNode;
 	}
 
-	void SetTeammate(Warrier** teammate)
+	void SetTeammate(Warrior** teammate)
 	{
 		this->myTeammate = teammate;
 	}
-	Warrier** GetTeammate()
+	Warrior** GetTeammate()
 	{
 		return myTeammate;
 	}
