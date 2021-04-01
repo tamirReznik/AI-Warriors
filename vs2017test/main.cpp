@@ -2,7 +2,6 @@
 Made By Tamir Reznik
 */
 
-
 #include "main.h"
 using namespace std;
 
@@ -510,13 +509,12 @@ void display()
 
 	DrawMaze();
 
-	if (pb != nullptr)
+	/*if (pb != nullptr)
 		pb->DrawMe();
 	if (pg)
 		pg->DrawMe();
-
+		*/
 	displayWar();
-
 
 	glutSwapBuffers(); // show all
 }
@@ -527,9 +525,6 @@ void displayWar()
 	warrior_2_T1->DrawMe(maze);
 	warrior_1_T2->DrawMe(maze);
 	warrior_2_T2->DrawMe(maze);
-
-
-
 
 }
 
@@ -667,6 +662,8 @@ void warriorGotHit(int row, int col, double damage, int target)
 
 void announceWinner()
 {
+
+
 	if (warrior_1_T1->GetHp() <= 0 && warrior_2_T1->GetHp() <= 0
 		&& !(warrior_1_T2->GetHp() <= 0 && warrior_2_T2->GetHp() <= 0))
 		printTeamTwoWon();
@@ -675,6 +672,9 @@ void announceWinner()
 		printTeamOneWon();
 	else
 		printDraw();
+
+	cout << "\n\nFinal Score: \n";
+	printGameStatus();
 
 }
 
@@ -748,11 +748,14 @@ void printTeamDeathmatch()
 	//  /_/   \___/ \__,_//_/ /_/ /_/  /_____/ \___/ \__,_/ \__//_/ /_//_/ /_/ /_/ \__,_/ \__/ \___//_/ /_/ 
 	//   
 	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+		<< "   Left Click On The Screen To Show Score...\n\n"
 		<< "    ______                           ____                __   __                       __         __  \n"
 		<< "   /_  __/___   ____ _ ____ ___     / __ \\ ___   ____ _ / /_ / /_   ____ ___   ____ _ / /_ _____ / /_ \n"
 		<< "    / /  / _ \\ / __ `// __ `__ \\   / / / // _ \\ / __ `// __// __ \\ / __ `__ \\ / __ `// __// ___// __ \\\n"
 		<< "   / /  /  __// /_/ // / / / / /  / /_/ //  __// /_/ // /_ / / / // / / / / // /_/ // /_ / /__ / / / /\n"
 		<< "  /_/   \\___/ \\__,_//_/ /_/ /_/  /_____/ \\___/ \\__,_/ \\__//_/ /_//_/ /_/ /_/ \\__,_/ \\__/ \\___//_/ /_/ \n";
+
+
 }
 
 void warriorsCalculations()
@@ -771,7 +774,6 @@ void warriorsCalculations()
 
 	}
 
-
 	Sleep(120);
 }
 
@@ -779,22 +781,20 @@ void idle()
 {
 
 	if (gameStarted && !gameOver)
-	{
 		warriorsCalculations();
-	}
-	if (gameOver && !gameStarted)
-	{
-		gameStarted = true;
-	}
 
-	if (pb && pb->IsMoving())
+	if (gameOver && !gameStarted)
+		gameStarted = true;
+
+
+	/*if (pb && pb->IsMoving())
 	{
 		pb->Move(maze);
 	}
 
 	if (pg && pg->IsExploded())
 		pg->Exploding(maze);
-
+		*/
 
 	glutPostRedisplay(); // indirect call to display
 }
@@ -865,7 +865,8 @@ void mouse(int button, int state, int x, int y)
 
 void printGameStatus()
 {
-	cout << "\n\nTeam 1 (Orange): \n"
+	cout << "\n##################################"
+		<< "\nTeam 1 (Orange): \n"
 		<< "\n  Warrior 1: "
 		<< "\n    HP: " << warrior_1_T1->GetHp()
 		<< "\n    Ammo: " << warrior_1_T1->GetAmmo()
@@ -878,7 +879,8 @@ void printGameStatus()
 		<< "\n    Ammo: " << warrior_1_T2->GetAmmo()
 		<< "\n\n  Warrior 2: "
 		<< "\n    HP: " << warrior_2_T2->GetHp()
-		<< "\n    Ammo: " << warrior_2_T2->GetAmmo() << "\n";
+		<< "\n    Ammo: " << warrior_2_T2->GetAmmo() << "\n"
+		<< "##################################\n";
 }
 
 int main(int argc, char* argv[])

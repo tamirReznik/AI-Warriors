@@ -289,7 +289,7 @@ bool Warrior::findClosestTarget(int maze[MSZ][MSZ], int target)
 		if (BFSGrays.empty()) // no more grays....no solution
 		{
 
-			cout << "ClosestTarget not found (BFS)\n";
+			//cout << "ClosestTarget not found (BFS)\n";
 			bfs_is_on = false;
 			return false;
 		}
@@ -587,10 +587,10 @@ void Warrior::findPathBetweenRooms(int targetRoom, int maze[MSZ][MSZ])
 
 
 		//checking each of the four neighbor cells
-		if (CheckNeighborBetweenRooms(current, new Node(currentRow + 1, currentCol, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow + 1][currentCol]), &aStarGrays, targetRoom)
-			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol + 1, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow][currentCol + 1]), &aStarGrays, targetRoom)
-			|| CheckNeighborBetweenRooms(current, new Node(currentRow - 1, currentCol, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow - 1][currentCol]), &aStarGrays, targetRoom)
-			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol - 1, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow][currentCol - 1]), &aStarGrays, targetRoom))
+		if (CheckNeighborBetweenRooms(current, new Node(currentRow + 1, currentCol, tr, tc, current->GetG() + 1, current, 10 * mySecurityMap[currentRow + 1][currentCol]), &aStarGrays, targetRoom)
+			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol + 1, tr, tc, current->GetG() + 1, current, 10 * mySecurityMap[currentRow][currentCol + 1]), &aStarGrays, targetRoom)
+			|| CheckNeighborBetweenRooms(current, new Node(currentRow - 1, currentCol, tr, tc, current->GetG() + 1, current, 10 * mySecurityMap[currentRow - 1][currentCol]), &aStarGrays, targetRoom)
+			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol - 1, tr, tc, current->GetG() + 1, current, 10 * mySecurityMap[currentRow][currentCol - 1]), &aStarGrays, targetRoom))
 		{
 			return;
 		}
@@ -602,7 +602,7 @@ void Warrior::findPathBetweenRooms(int targetRoom, int maze[MSZ][MSZ])
 		//no more grays to check --> Can't find target
 		if (aStarGrays.empty())
 		{
-			cout << "no solution - FindPath\n";
+			//cout << "no solution - FindPath\n";
 			return;
 		}
 	}
@@ -750,7 +750,7 @@ bool Warrior::findSafeSpotInRoom(int maze[MSZ][MSZ])
 	{
 		if (BFSGrays.empty()) // no more grays....no solution
 		{
-			cout << "safe target not found (BFS)\n";
+			//cout << "safe target not found (BFS)\n";
 			bfs_is_on = false;
 			return false;
 		}
