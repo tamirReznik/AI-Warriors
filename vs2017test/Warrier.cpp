@@ -63,7 +63,6 @@ void Warrier::shootToKill(int maze[MSZ][MSZ])
 	myRoom_targetRoom[0] = checkMyCurrentRoom();
 	if (myAmmo > 0 && (*myBullet) == nullptr && (*myGrenade) == nullptr)
 	{
-		//cout << "\nshootTOkILL_PREPARE\n";
 		int col = myNode->GetCol();
 		int row = myNode->GetRow();
 		double cx = (col - (MSZ / 2.0)) * (2.0 / MSZ);
@@ -87,7 +86,6 @@ void Warrier::shootToKill(int maze[MSZ][MSZ])
 		}
 
 	}
-	//cout << "\nmy ammo: " << myAmmo;
 }
 
 void Warrier::calcStepTargetNOTExist(int maze[MSZ][MSZ])
@@ -96,7 +94,6 @@ void Warrier::calcStepTargetNOTExist(int maze[MSZ][MSZ])
 	//warrier injured
 	if (hp < hpThreshold)
 	{
-		//todo - target need to be the closest between teamate and medical station
 		if ((targetFound = findClosestTarget(maze, MEDICINES)))
 		{
 			currentTarget = MEDICINES;
@@ -107,12 +104,10 @@ void Warrier::calcStepTargetNOTExist(int maze[MSZ][MSZ])
 	}
 	if (myAmmo < 1 && !targetFound)
 	{
-		//todo - target need to be ammo bunkker / warrier teamate
 		if ((targetFound = findClosestTarget(maze, AMMO)))
 		{
 			currentTarget = AMMO;
 			findPath(maze);
-			//cout << "path not exist!\n";
 
 		}
 	}
@@ -136,7 +131,7 @@ void Warrier::calcStepTargetExist(int maze[MSZ][MSZ])
 			return;
 
 		currentTarget = MEDICINES;
-		//todo - target need to be the closest between teamate and medical station
+
 		if (findClosestTarget(maze, MEDICINES))
 		{
 			findPath(maze);
@@ -188,7 +183,7 @@ void Warrier::findPath(int maze[MSZ][MSZ])
 	//if warrier with target in same room
 	if (myRoom_targetRoom[0] == myRoom_targetRoom[1] && myRoom_targetRoom[0] != -1)
 	{
-		//if enemy in same room - find safest spot to combat from 
+		//if enemy in same room - find safest spot to combat from if no safe spot found then do suicide attack
 		if (currentTarget == enemyTeam)
 		{
 			findSafeSpotInRoom(maze);
@@ -199,7 +194,7 @@ void Warrier::findPath(int maze[MSZ][MSZ])
 	}
 	else
 	{
-		findPathBetweenRooms2(myRoom_targetRoom[1], maze);
+		findPathBetweenRooms(myRoom_targetRoom[1], maze);
 	}
 
 }
@@ -277,8 +272,7 @@ void Warrier::DrawMe(int maze[MSZ][MSZ])
 
 }
 
-//bfs; 
-//if target found return true ; else false
+//BFS - if target found return true ; else false
 bool Warrier::findClosestTarget(int maze[MSZ][MSZ], int target)
 {
 	copyMaze(maze);
@@ -308,15 +302,16 @@ bool Warrier::findClosestTarget(int maze[MSZ][MSZ], int target)
 			curr_col = current->GetCol();
 			// paint it black
 			if (myMaze[curr_row][curr_col] == GRAY)
-			{
 				myMaze[curr_row][curr_col] = BLACK;
-			}
-			// look for white neighbors
 
-			// up
-			if (CheckNeighborClosestTarget(current, curr_row + 1, curr_col, &bfs_is_on, &BFSGrays, target)
+			// look for white neighbors
+			if (// up
+				CheckNeighborClosestTarget(current, curr_row + 1, curr_col, &bfs_is_on, &BFSGrays, target)
+				// right
 				|| CheckNeighborClosestTarget(current, curr_row, curr_col + 1, &bfs_is_on, &BFSGrays, target)
+				// left
 				|| CheckNeighborClosestTarget(current, curr_row, curr_col - 1, &bfs_is_on, &BFSGrays, target)
+				// down
 				|| CheckNeighborClosestTarget(current, curr_row - 1, curr_col, &bfs_is_on, &BFSGrays, target))
 				return true;
 		}
@@ -341,7 +336,6 @@ bool Warrier::CheckNeighborClosestTarget(Node* current, int row, int col, bool* 
 		targetNode = new Node(row, col, current->GetG() + 1, current);
 		myMaze[row][col] = GRAY;
 		*bfs_is_on = false;
-		//cout << "\nTarget: " << target << " row: " << row << " col: " << col << endl;
 		return true;
 
 	}
@@ -358,13 +352,9 @@ bool Warrier::CheckNeighborClosestTarget(Node* current, int row, int col, bool* 
 	}
 }
 
-//bfs; 
 // returns true if enemy found in the room else false (still ammo and medicine could be found and added to objectsInRoom array);
 bool Warrier::CheckNeighborRadar(Node* current, int row, int col, bool* bfs_is_on, std::vector <Node*>* BFSGrays)
 {
-
-	//if ((col <= rooms[myRoom_targetRoom[0]].GetCenterCol() + rooms[myRoom_targetRoom[0]].GetWidth() / 2 + 1 && col >= rooms[myRoom_targetRoom[0]].GetCenterCol() - rooms[myRoom_targetRoom[0]].GetWidth() / 2 - 1)
-	//	&& (row <= rooms[myRoom_targetRoom[0]].GetCenterRow() + rooms[myRoom_targetRoom[0]].GetHeight() / 2 + 1 && row >= rooms[myRoom_targetRoom[0]].GetCenterRow() - rooms[myRoom_targetRoom[0]].GetHeight() / 2 - 1))
 	if (whichRoom(new Node(row, col, 0, nullptr), -1) == myRoom_targetRoom[0])
 	{
 		if (myMaze[row][col] == AMMO)
@@ -380,10 +370,8 @@ bool Warrier::CheckNeighborRadar(Node* current, int row, int col, bool* bfs_is_o
 		if (myMaze[row][col] == enemyTeam)
 		{
 			ObjectsInRoom[0] = new Node(row, col, current->GetG() + 1, current);
-			//targetNode = new Node(row, col, current->GetG() + 1, current);
 			myMaze[row][col] = GRAY;
 			*bfs_is_on = false;
-			//cout << "\nenemy in the room: row: " << row << " col: " << col << "\n";
 			return true;
 
 		}
@@ -398,8 +386,7 @@ bool Warrier::CheckNeighborRadar(Node* current, int row, int col, bool* bfs_is_o
 	return false;
 }
 
-//bfs; 
-// returns true if target found. else false;
+//BFS - returns true if enemy in the room. else false;
 bool Warrier::closeRadar(int maze[MSZ][MSZ])
 {
 	//return if tunnel
@@ -413,7 +400,6 @@ bool Warrier::closeRadar(int maze[MSZ][MSZ])
 	bool bfs_is_on = true;
 	Node* current;
 	int curr_row, curr_col;
-	//targetNode = nullptr;
 	vector <Node*> BFSGrays;
 	BFSGrays.push_back(myNode);
 
@@ -421,8 +407,6 @@ bool Warrier::closeRadar(int maze[MSZ][MSZ])
 	{
 		if (BFSGrays.empty()) // no more grays....no solution
 		{
-
-			//cout << "warrier can't locate target (BFS)\n";
 			bfs_is_on = false;
 			return false;
 		}
@@ -435,13 +419,10 @@ bool Warrier::closeRadar(int maze[MSZ][MSZ])
 			curr_col = current->GetCol();
 			// paint it black
 			if (myMaze[curr_row][curr_col] == GRAY)
-			{
 				myMaze[curr_row][curr_col] = BLACK;
-			}
-			// look for white neighbors
 
-			// up
-			if (CheckNeighborRadar(current, curr_row + 1, curr_col, &bfs_is_on, &BFSGrays)
+			if (// up
+				CheckNeighborRadar(current, curr_row + 1, curr_col, &bfs_is_on, &BFSGrays)
 				// right
 				|| CheckNeighborRadar(current, curr_row, curr_col + 1, &bfs_is_on, &BFSGrays)
 				// left
@@ -451,19 +432,6 @@ bool Warrier::closeRadar(int maze[MSZ][MSZ])
 			{
 				return true;
 			}
-			/*	// up
-				if (CheckNeighborRadar(current, curr_row + 1, curr_col, &bfs_is_on, &BFSGrays))
-					return true;
-				// right
-				if (CheckNeighborRadar(current, curr_row, curr_col + 1, &bfs_is_on, &BFSGrays))
-					return true;
-				// left
-				if (CheckNeighborRadar(current, curr_row, curr_col - 1, &bfs_is_on, &BFSGrays))
-					return true;
-				// down
-				if (CheckNeighborRadar(current, curr_row - 1, curr_col, &bfs_is_on, &BFSGrays))
-					return true;
-				*/
 		}
 	}//while
 	return false;
@@ -505,7 +473,7 @@ int Warrier::whichRoom(Node* node, int farFromEdge)
 	return -1;
 }
 
-//A-STAR
+//A-STAR - find path to safest node in the room 
 void Warrier::findPathInsideRoom(int maze[MSZ][MSZ], Node* target)
 {
 
@@ -551,7 +519,6 @@ bool Warrier::CheckNeighborInsideRoom(Node* current, Node* neighbor, std::priori
 
 	Node tempNeighbor = *neighbor;
 
-	//if (myMaze[neighbor->GetRow()][neighbor->GetCol()] == currentTarget)
 	if (neighbor->DistanceFromMe(targetNode->GetRow(), targetNode->GetCol()) == 0)
 	{
 
@@ -595,7 +562,7 @@ void Warrier::RestorePath(Node* current)
 }
 
 // run A* that finds the "best" path from warrier node to rooms[targetRoom]
-void Warrier::findPathBetweenRooms2(int targetRoom, int maze[MSZ][MSZ])
+void Warrier::findPathBetweenRooms(int targetRoom, int maze[MSZ][MSZ])
 {
 	copyMaze(maze);
 	int r, c, tr, tc;
@@ -620,10 +587,10 @@ void Warrier::findPathBetweenRooms2(int targetRoom, int maze[MSZ][MSZ])
 
 
 		//checking each of the four neighbor cells
-		if (CheckNeighborBetweenRooms2(current, new Node(currentRow + 1, currentCol, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow + 1][currentCol]), &aStarGrays, targetRoom)
-			|| CheckNeighborBetweenRooms2(current, new Node(currentRow, currentCol + 1, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow][currentCol + 1]), &aStarGrays, targetRoom)
-			|| CheckNeighborBetweenRooms2(current, new Node(currentRow - 1, currentCol, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow - 1][currentCol]), &aStarGrays, targetRoom)
-			|| CheckNeighborBetweenRooms2(current, new Node(currentRow, currentCol - 1, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow][currentCol - 1]), &aStarGrays, targetRoom))
+		if (CheckNeighborBetweenRooms(current, new Node(currentRow + 1, currentCol, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow + 1][currentCol]), &aStarGrays, targetRoom)
+			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol + 1, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow][currentCol + 1]), &aStarGrays, targetRoom)
+			|| CheckNeighborBetweenRooms(current, new Node(currentRow - 1, currentCol, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow - 1][currentCol]), &aStarGrays, targetRoom)
+			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol - 1, tr, tc, current->GetG() + 1, current, 100 * mySecurityMap[currentRow][currentCol - 1]), &aStarGrays, targetRoom))
 		{
 			return;
 		}
@@ -641,7 +608,7 @@ void Warrier::findPathBetweenRooms2(int targetRoom, int maze[MSZ][MSZ])
 	}
 }
 
-bool Warrier::CheckNeighborBetweenRooms2(Node* current, Node* neighbor, std::priority_queue<Node*, std::vector<Node*>, CompareWarNodes>* aStarGrays, int targetRoom)
+bool Warrier::CheckNeighborBetweenRooms(Node* current, Node* neighbor, std::priority_queue<Node*, std::vector<Node*>, CompareWarNodes>* aStarGrays, int targetRoom)
 {
 
 
@@ -769,7 +736,7 @@ void Warrier::copySecurityMap(double securityMap[MSZ][MSZ])
 			mySecurityMap[i][j] = securityMap[i][j];
 }
 
-//BFS - find safest spot in the current room - for combat purposes
+//BFS - find safest spot in the current room (depends on security map and distance from enemy) - for combat purposes
 bool Warrier::findSafeSpotInRoom(int maze[MSZ][MSZ])
 {
 	copyMaze(maze);

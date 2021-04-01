@@ -68,8 +68,8 @@ private:
 	void findPath(int maze[MSZ][MSZ]);
 	bool findSafeSpotInRoom(int maze[MSZ][MSZ]);
 	bool CheckNeighborSafeSpotInRoom(Node* current, int row, int col, bool* bfs_is_on, std::vector <Node*>* BFSGrays);
-	void findPathBetweenRooms2(int targetRoom, int maze[MSZ][MSZ]);
-	bool CheckNeighborBetweenRooms2(Node* current, Node* neighbor, std::priority_queue<Node*, std::vector<Node*>, CompareWarNodes>* aStarGrays, int targetRoom);
+	void findPathBetweenRooms(int targetRoom, int maze[MSZ][MSZ]);
+	bool CheckNeighborBetweenRooms(Node* current, Node* neighbor, std::priority_queue<Node*, std::vector<Node*>, CompareWarNodes>* aStarGrays, int targetRoom);
 
 public:
 
