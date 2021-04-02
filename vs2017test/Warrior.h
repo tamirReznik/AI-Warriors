@@ -16,13 +16,10 @@ class Warrior
 	const int FIRST_AID_INIT_AMOUNT = 1;
 	const int FIRST_AID_HP = 30;
 	const int MAX_AMMO = 60;
+	const int MINIMAL_COURAGE = 10;
 private:
-	enum status
-	{
-		BETWEEN_ROOMS, IN_ROOM, IDLE
-	};
+
 	bool* isGameOver;
-	int myStatus;
 	int myMaze[MSZ][MSZ];
 	double mySecurityMap[MSZ][MSZ];
 	void (*warriorGotHitCallBack)(int, int, double, int);
@@ -30,8 +27,7 @@ private:
 	Grenade** myGrenade;
 	Warrior** myTeammate;
 	Room* rooms;
-	int firstAid;
-	int radarRate, rateCounter, * numOfWarriors;
+	int firstAid, courage;
 	int myTeam, enemyTeam, numOfRooms;
 	int myRoom_targetRoom[2];// index 0 = my current room| index 1 = target room
 	int currentTarget;

@@ -66,6 +66,7 @@ void Bullet::Move(int maze[MSZ][MSZ])
 		hitRow = row;
 		SetIsHit(true);
 		Fire(false);
+
 		if (maze[row][col] == target)
 		{
 			CalculateDamage();

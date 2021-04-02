@@ -15,8 +15,6 @@ const int NUM_ROOMS = 12;
 int maze[MSZ][MSZ] = { 0 }; // 0 is SPACE
 double security_map[MSZ][MSZ] = { 0 };// danger map: 0 means no danger
 Room rooms[NUM_ROOMS];
-Bullet* pb = nullptr;
-Grenade* pg = nullptr;
 
 int numOfWarriors = 0;
 
@@ -482,38 +480,12 @@ void GenerateSecurityMap()
 	}
 }
 
-void GenerateFireworks()
-{
-	int num_explosions = 1000;
-	int counter;
-	int x, y;
-	double  xx, yy;
-	Grenade* pg1;
-
-	for (counter = 1; counter <= num_explosions; counter++)
-	{
-		x = rand() % WIDTH; // x and y are random pixels
-		y = rand() % HEIGHT;
-		xx = (2 * x / (double)WIDTH) - 1;
-		yy = (2 * y / (double)HEIGHT) - 1; // now xx,yy are in range [-1,1]
-		pg1 = new Grenade(xx, yy);
-		pg1->Explode();
-
-		//pg1->UpdateSecurityMap(maze, security_map, /*1.0 / num_explosions*/0.01);
-	}
-}
-
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT); // clean frame buffer
 
 	DrawMaze();
 
-	/*if (pb != nullptr)
-		pb->DrawMe();
-	if (pg)
-		pg->DrawMe();
-		*/
 	displayWar();
 
 	glutSwapBuffers(); // show all
@@ -525,105 +497,6 @@ void displayWar()
 	warrior_2_T1->DrawMe(maze);
 	warrior_1_T2->DrawMe(maze);
 	warrior_2_T2->DrawMe(maze);
-
-}
-
-void lookForGrenadeCasualties(Grenade* grenade)
-{
-	Bullet* currentBullet;
-	if (grenade && grenade->IsDone())
-	{
-		std::vector <Bullet> hitBullets = grenade->GetHitBullets();
-		int enemyTeam = hitBullets.front().GetTargert();
-
-		Warrior** enemy_1, ** enemy_2;
-		if (enemyTeam == TEAM_1)
-		{
-			enemy_1 = &warrior_1_T2;
-			enemy_2 = &warrior_2_T2;
-		}
-		else if (enemyTeam == TEAM_2)
-		{
-			enemy_1 = &warrior_1_T1;
-			enemy_2 = &warrior_2_T1;
-		}
-		else
-		{
-			return;
-		}
-		while (!hitBullets.empty())
-		{
-			cout << "\nammo: " << (*enemy_1)->GetAmmo() << "\n";
-			cout << "hp: " << (*enemy_2)->GetHp() << "\n";
-			currentBullet = &hitBullets.front();
-			hitBullets.erase(hitBullets.begin());
-			if (currentBullet->GetHitCol() == (*enemy_1)->GetMyNode()->GetCol()
-				&& currentBullet->GetHitRow() == (*enemy_1)->GetMyNode()->GetRow())
-			{
-				double hp = (*enemy_1)->GetHp();
-				(*enemy_1)->SetHp(max(hp - currentBullet->GetDamage(), .0));
-			}
-			if (currentBullet->GetHitCol() == (*enemy_2)->GetMyNode()->GetCol()
-				&& currentBullet->GetHitRow() == (*enemy_2)->GetMyNode()->GetRow())
-			{
-				double hp = (*enemy_2)->GetHp();
-				(*enemy_2)->SetHp(max(hp - currentBullet->GetDamage(), .0));
-			}
-		}
-	}
-
-}
-
-void lookForBulletCasualties(Bullet* currentBullet)
-{
-	if (!currentBullet || !currentBullet->IsHit())
-	{
-		return;
-	}
-	int enemyTeam = currentBullet->GetTargert();
-
-	Warrior** enemy_1, ** enemy_2;
-	if (enemyTeam == TEAM_1)
-	{
-		enemy_1 = &warrior_1_T2;
-		enemy_2 = &warrior_2_T2;
-	}
-	else if (enemyTeam == TEAM_2)
-	{
-		enemy_1 = &warrior_1_T1;
-		enemy_2 = &warrior_2_T1;
-	}
-	else
-	{
-		return;
-	}
-	if (currentBullet->GetHitCol() == (*enemy_1)->GetMyNode()->GetCol()
-		&& currentBullet->GetHitRow() == (*enemy_1)->GetMyNode()->GetRow())
-	{
-		double hp = (*enemy_1)->GetHp();
-		(*enemy_1)->SetHp(max(hp - currentBullet->GetDamage(), .0));
-		cout << "enemy_1 hp: " << (*enemy_1)->GetHp();
-	}
-	if (currentBullet->GetHitCol() == (*enemy_2)->GetMyNode()->GetCol()
-		&& currentBullet->GetHitRow() == (*enemy_2)->GetMyNode()->GetRow())
-	{
-		double hp = (*enemy_2)->GetHp();
-		(*enemy_2)->SetHp(max(hp - currentBullet->GetDamage(), .0));
-	}
-
-}
-
-void lookForCasualties()
-{
-	lookForGrenadeCasualties(grenadeTeam_1_Warrior_1);
-	lookForGrenadeCasualties(grenadeTeam_1_Warrior_2);
-	lookForGrenadeCasualties(grenadeTeam_2_Warrior_1);
-	lookForGrenadeCasualties(grenadeTeam_2_Warrior_2);
-
-	lookForBulletCasualties(bulletTeam_1_Warrior_1);
-	lookForBulletCasualties(bulletTeam_1_Warrior_2);
-	lookForBulletCasualties(bulletTeam_2_Warrior_1);
-	lookForBulletCasualties(bulletTeam_2_Warrior_2);
 
 }
 
@@ -662,7 +535,6 @@ void warriorGotHit(int row, int col, double damage, int target)
 
 void announceWinner()
 {
-
 
 	if (warrior_1_T1->GetHp() <= 0 && warrior_2_T1->GetHp() <= 0
 		&& !(warrior_1_T2->GetHp() <= 0 && warrior_2_T2->GetHp() <= 0))
@@ -786,16 +658,6 @@ void idle()
 	if (gameOver && !gameStarted)
 		gameStarted = true;
 
-
-	/*if (pb && pb->IsMoving())
-	{
-		pb->Move(maze);
-	}
-
-	if (pg && pg->IsExploded())
-		pg->Exploding(maze);
-		*/
-
 	glutPostRedisplay(); // indirect call to display
 }
 
@@ -815,21 +677,13 @@ void menu(int choice)
 {
 	switch (choice)
 	{
-		/*case 1: // Fire bullet
-			if (pb != nullptr)
-				pb->Fire(true);
-			break;
-		case 2: // Throw grenade
-			if (pg != nullptr)
-				pg->Explode();
-			break;*/
-	case 1: // start battle
+	case 1: // start/stop battle
 		gameStarted = !gameStarted;
 		break;
 	case 2: // show security map
 		showSecurityMap = !showSecurityMap;
 		break;
-	case 3: // show security map
+	case 3: // start new game
 		init();
 		break;
 
@@ -841,25 +695,6 @@ void mouse(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
 		printGameStatus();
-		/*double xx, yy;
-		xx = (2 * x / (double)WIDTH) - 1;
-		yy = (2 * (HEIGHT - y) / (double)HEIGHT) - 1;
-		//pb = new Bullet(xx, yy, warrior_1_T2->GetMyNode()->GetCol() / MSZ, warrior_1_T2->GetMyNode()->GetRow() / MSZ);
-
-		int  row = yy * MSZ / 2 + MSZ / 2;
-		int  col = xx * MSZ / 2 + MSZ / 2;
-		double hypotenuse = sqrt(pow(warrior_1_T2->GetMyNode()->GetRow() - row, 2) + pow(warrior_1_T2->GetMyNode()->GetCol() - col, 2));
-		double dirY = (warrior_1_T2->GetMyNode()->GetRow() - row) / hypotenuse;
-		double dirX = (warrior_1_T2->GetMyNode()->GetCol() - col) / hypotenuse;
-
-		pb = new Bullet(xx, yy, dirX, dirY, warrior_1_T2->GetTeam(), nullptr);
-			cout << "\nwarrior_1_T2: row: " << warrior_1_T2->GetMyNode()->GetRow() << " col: " << warrior_1_T2->GetMyNode()->GetCol() << "\n";
-			cout << "\nwarrior_1_T2: row: " << 2.0 * warrior_1_T2->GetMyNode()->GetCol() / MSZ - 1 << " col: " << 2.0 * warrior_1_T2->GetMyNode()->GetCol() / MSZ - 1 << "\n";
-			cout << "\nxx: " << xx << " yy: " << yy << "\n";
-			cout << "\nx: " << x << " y: " << y << "\n";
-			cout << "\ndirX: " << dirX << " dirY: " << dirY << "\n";
-			cout << "\nrow: " << row << " col: " << col << "\n";
-		pg = new Grenade(xx, yy, warrior_1_T2->GetTeam(), nullptr);*/
 	}
 }
 

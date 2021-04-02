@@ -5,9 +5,6 @@ using namespace std;
 Warrior::Warrior(int team, int enemyTeam, int row, int col, int number_of_rooms, int* rate, Room* gameRooms, Warrior** teammate, double security_map[MSZ][MSZ], void (*warriorGotHit)(int, int, double, int), bool* gameOver)
 {
 	isGameOver = gameOver;
-	radarRate = (*rate);
-	numOfWarriors = rate;
-	rateCounter = 0;
 	copySecurityMap(security_map);
 	this->warriorGotHitCallBack = warriorGotHit;
 	myTeammate = teammate;
@@ -19,7 +16,11 @@ Warrior::Warrior(int team, int enemyTeam, int row, int col, int number_of_rooms,
 	myNode = new Node(row, col, 0, nullptr);
 	this->hp = 9;
 	this->myAmmo = 0;
-	hpThreshold = rand() % 10 + 10;// each warrior have uniqe threshold (The measure of courage)
+
+	// each warrior have uniqe threshold (measure of courage)
+	hpThreshold = rand() % 10 + 10;
+	// each warrior have courage property that determine the risk he willing to take in path to his target (0 - Extremely brave, 9 - minimal risk)
+	courage = rand() % 10;
 }
 
 void Warrior::calculateNextStep(int maze[MSZ][MSZ])
@@ -493,10 +494,10 @@ void Warrior::findPathInsideRoom(int maze[MSZ][MSZ], Node* target)
 		int currentRow = current->GetRow(), currentCol = current->GetCol();
 
 		//checking each of the four neighbor cells
-		if (CheckNeighborInsideRoom(current, new Node(currentRow + 1, currentCol, tRow, tCol, current->GetG() + 1, current, 100 * mySecurityMap[currentRow + 1][currentCol]), &aStarGrays)
-			|| CheckNeighborInsideRoom(current, new Node(currentRow, currentCol + 1, tRow, tCol, current->GetG() + 1, current, 100 * mySecurityMap[currentRow][currentCol + 1]), &aStarGrays)
-			|| CheckNeighborInsideRoom(current, new Node(currentRow - 1, currentCol, tRow, tCol, current->GetG() + 1, current, 100 * mySecurityMap[currentRow - 1][currentCol]), &aStarGrays)
-			|| CheckNeighborInsideRoom(current, new Node(currentRow, currentCol - 1, tRow, tCol, current->GetG() + 1, current, 100 * mySecurityMap[currentRow][currentCol - 1]), &aStarGrays))
+		if (CheckNeighborInsideRoom(current, new Node(currentRow + 1, currentCol, tRow, tCol, current->GetG() + 1, current, (MINIMAL_COURAGE + courage) * mySecurityMap[currentRow + 1][currentCol]), &aStarGrays)
+			|| CheckNeighborInsideRoom(current, new Node(currentRow, currentCol + 1, tRow, tCol, current->GetG() + 1, current, (MINIMAL_COURAGE + courage) * mySecurityMap[currentRow][currentCol + 1]), &aStarGrays)
+			|| CheckNeighborInsideRoom(current, new Node(currentRow - 1, currentCol, tRow, tCol, current->GetG() + 1, current, (MINIMAL_COURAGE + courage) * mySecurityMap[currentRow - 1][currentCol]), &aStarGrays)
+			|| CheckNeighborInsideRoom(current, new Node(currentRow, currentCol - 1, tRow, tCol, current->GetG() + 1, current, (MINIMAL_COURAGE + courage) * mySecurityMap[currentRow][currentCol - 1]), &aStarGrays))
 		{
 			return;
 		}
@@ -587,10 +588,10 @@ void Warrior::findPathBetweenRooms(int targetRoom, int maze[MSZ][MSZ])
 
 
 		//checking each of the four neighbor cells
-		if (CheckNeighborBetweenRooms(current, new Node(currentRow + 1, currentCol, tr, tc, current->GetG() + 1, current, 10 * mySecurityMap[currentRow + 1][currentCol]), &aStarGrays, targetRoom)
-			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol + 1, tr, tc, current->GetG() + 1, current, 10 * mySecurityMap[currentRow][currentCol + 1]), &aStarGrays, targetRoom)
-			|| CheckNeighborBetweenRooms(current, new Node(currentRow - 1, currentCol, tr, tc, current->GetG() + 1, current, 10 * mySecurityMap[currentRow - 1][currentCol]), &aStarGrays, targetRoom)
-			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol - 1, tr, tc, current->GetG() + 1, current, 10 * mySecurityMap[currentRow][currentCol - 1]), &aStarGrays, targetRoom))
+		if (CheckNeighborBetweenRooms(current, new Node(currentRow + 1, currentCol, tr, tc, current->GetG() + 1, current, (MINIMAL_COURAGE + courage) * mySecurityMap[currentRow + 1][currentCol]), &aStarGrays, targetRoom)
+			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol + 1, tr, tc, current->GetG() + 1, current, (MINIMAL_COURAGE + courage) * mySecurityMap[currentRow][currentCol + 1]), &aStarGrays, targetRoom)
+			|| CheckNeighborBetweenRooms(current, new Node(currentRow - 1, currentCol, tr, tc, current->GetG() + 1, current, (MINIMAL_COURAGE + courage) * mySecurityMap[currentRow - 1][currentCol]), &aStarGrays, targetRoom)
+			|| CheckNeighborBetweenRooms(current, new Node(currentRow, currentCol - 1, tr, tc, current->GetG() + 1, current, (MINIMAL_COURAGE + courage) * mySecurityMap[currentRow][currentCol - 1]), &aStarGrays, targetRoom))
 		{
 			return;
 		}
