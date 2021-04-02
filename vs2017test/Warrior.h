@@ -17,6 +17,7 @@ class Warrior
 	const int FIRST_AID_HP = 30;
 	const int MAX_AMMO = 60;
 	const int MINIMAL_COURAGE = 10;
+
 private:
 
 	bool* isGameOver;
