@@ -39,7 +39,7 @@ Warrior Character
 - Each Warrior have a unique property of hp threshold that determines how much he can stay in the battle and get hit before starting to look for medical help.
 - Each Warrior have a unique property of courage that determine how safe his path would be towards the target (coefficient of the security map weight)
 
-![](Decision_tree.png)
+![](images/Decision_tree.png)
 
 **In every state, the Warrior runs BFS on his current room to check if he close to Teammate, Enemy, Ammo, Medical Station.**
   - In case the Warrior close to his teammate, he will check if he can help him with ammo and first aid or get from him ammo and first aid if needed.
