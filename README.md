@@ -1,7 +1,8 @@
 ﻿
 # AI-Warriors
 AI Team Deathmatch 
-
+![](images/DecisionTree.jpg)
+![](images/DecisionTree.png)
 
 Map's legend
 
