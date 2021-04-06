@@ -5,15 +5,15 @@ Warriors – Team Deathmatch
 
 Map's legend
 
-- ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.001.png)Medical Care
+- ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.001.png) Medical Care
 
-- ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.002.png)Ammo Station
+- ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.002.png) Ammo Station
 
-- ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.003.png)Barrier
+- ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.003.png) Barrier
 
-- ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.004.png)Warrior
+- ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.004.png) Warrior
 
-![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.005.png)Operating Instructions
+![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.005.png) Operating Instructions
 
 **Right click** - 
 
