@@ -12,12 +12,12 @@ Map's legend
 - ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.003.png) - Barrier
 
 - ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.004.png) - Warrior
-- 
+
 **Right click** - 
 
 ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.005.png)
 
-Operating Instructions
+**Operating Instructions**
 
 **Start/Stop Battle**: AI warriors start to fight. It can be stopped at any time.
 
@@ -25,7 +25,7 @@ Operating Instructions
 
 **New Game** – start a new game without exit the current window.
 
-- **To see the current state (hp and ammo) of all warriors, click left, click inside the window, and the updated data will appear in the console.**
+- **To see the current state (hp and ammo) of all warriors - left click inside the window, and the updated data will appear in the console.**
 
 Warrior States
 
@@ -38,47 +38,6 @@ Warrior Character
 
 - Each Warrior have a unique property of hp threshold that determines how much he can stay in the battle and get hit before starting to look for medical help.
 - Each Warrior have a unique property of courage that determine how safe his path would be towards the target (coefficient of the security map weight)
-
-Warrior Decision Tree
-
-Initial State
-
-Initial State
-
-Teammate is OK.
-
-Find path to teammate
-
-Teammate need help
-
-Check on my teammate
-
-Enough ammo
-
-Find path to closest between teammate and medical care
-
-Teammate have enough ammo
-
-Teammate do not have enough ammo.
-
-Need to Reload
-
-Lack of ammo
-
-Teammate do not have first aid.
-
-Teammate have first aid
-
-Healthy
-
-Need Medical Help
-
-Injured
-
-Not Injured
-
-Not Injured
-
 
 
 ![](Aspose.Words.fd7e835c-2be8-428c-bdca-3eee88cf217d.029.png)
