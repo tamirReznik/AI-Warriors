@@ -1,7 +1,7 @@
 ﻿
-AI – Final Project
+# AI-Warriors
+AI Team Deathmatch 
 
-Warriors – Team Deathmatch
 
 Map's legend
 
