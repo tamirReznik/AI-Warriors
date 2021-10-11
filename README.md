@@ -61,4 +61,6 @@ Warrior Character
 
 - **closeRadar()** – **BFS** that search for enemy in warrior room if enemy found in the room warrior will shoot to kill (if he has ammo)
 
+Simulation:
 
+![](AI-Warriors.gif)
